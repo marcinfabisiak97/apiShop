@@ -16,7 +16,9 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "noEmit": true,
-    
-  },"include": ["index.ts"]
+    "noEmit": false,
+    "outDir": "build"
+  },
+  "include": ["index.ts"]
 }
+
