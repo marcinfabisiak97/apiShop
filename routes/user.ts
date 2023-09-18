@@ -1,10 +1,22 @@
 import { Router } from "express";
 import User from "../models/User";
 import {
+  verifyToken,
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,
 } from "./verifyToken";
+import CryptoJS from "crypto-js";
 const userRouter = Router();
+//add user
+userRouter.post("/add", verifyTokenAndAdmin, async (req, res) => {
+  const newUser = new User(req.body);
+  try {
+    const savedUser = await newUser.save();
+    res.status(200).json(savedUser);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 //update user
 userRouter.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   if (req.body.password) {
@@ -69,6 +81,7 @@ userRouter.get("/stats", verifyTokenAndAdmin, async (req, res) => {
       { $project: { month: { $month: "$createdAt" } } },
       { $group: { _id: "$month", total: { $sum: 1 } } },
     ]);
+
     res.status(200).json(stats);
   } catch (err) {
     res.status(500).json(err);

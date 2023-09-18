@@ -7,7 +7,17 @@ const authRouter = Router();
 dotenv.config();
 
 authRouter.post("/register", async (req, res) => {
+  const existingUser = await User.findOne({
+    $or: [{ username: req.body.username }, { email: req.body.email }],
+  });
+  if (existingUser) {
+    return res
+      .status(400)
+      .json({ message: "Username or email already exists" });
+  }
   const newUser = new User({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     username: req.body.username,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(

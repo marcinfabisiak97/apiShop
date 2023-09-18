@@ -7,7 +7,7 @@ import {
 import Order from "../models/Order";
 const orderRouter = Router();
 //create
-orderRouter.post("/", verifyToken, async (req, res) => {
+orderRouter.post("/", async (req, res) => {
   const newOrder = new Order(req.body);
   try {
     const savedOrder = await newOrder.save();
@@ -64,16 +64,44 @@ orderRouter.get("/", verifyTokenAndAdmin, async (req, res) => {
 });
 //get monthly income
 orderRouter.get("/income", verifyTokenAndAdmin, async (req, res) => {
+  const productId = req.query.pid;
   const date = new Date();
   const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
   const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
   try {
     const income = await Order.aggregate([
-      { $match: { createdAt: { $gte: previousMonth } } },
+      {
+        $match: {
+          createdAt: { $gte: previousMonth },
+          ...(productId && {
+            products: { $elemMatch: { productId } },
+          }),
+        },
+      },
       { $project: { month: { $month: "$createdAt" }, sales: "$amount" } },
       { $group: { _id: "$month", total: { $sum: "$sales" } } },
     ]);
     res.status(200).json(income);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+orderRouter.get("/financials", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const financials = await Order.aggregate([
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          revenue: { $sum: "$amount" },
+          sales: { $sum: 1 },
+          costs: { $sum: "$cost" },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+    res.status(200).json(financials);
   } catch (err) {
     res.status(500).json(err);
   }

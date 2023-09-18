@@ -6,7 +6,9 @@ import authRouter from "./routes/auth";
 import productRouter from "./routes/products";
 import cartRouter from "./routes/cart";
 import orderRouter from "./routes/order";
-
+import stripeRouter from "./routes/stripe";
+import sendEmail from "./routes/sendEmail";
+import cors from "cors";
 dotenv.config();
 const app = express();
 if (process.env.MONGODB_URL) {
@@ -21,13 +23,23 @@ if (process.env.MONGODB_URL) {
       );
     });
 }
+
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "token", "accessToken"],
+  })
+);
+
 app.use(express.json());
+app.use("/api/", sendEmail);
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);
-
+app.use("/api/checkout", stripeRouter);
 app.listen(process.env.PORT || 5000, () => {
-  console.log("server is running");
+  console.log("backend server is running");
 });
