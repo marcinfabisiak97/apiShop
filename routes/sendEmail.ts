@@ -37,7 +37,6 @@ sendMail.post("/sendemail", async (req: Request, res: Response) => {
 });
 sendMail.post("/sendorderdetails", async (req: Request, res: Response) => {
   const { data } = await req.body;
-  console.log(req.body);
   const mailOptions = {
     from: "needmartinshop@gmail.com",
     to: "needmartinshop@gmail.com",
