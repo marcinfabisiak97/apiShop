@@ -42,17 +42,16 @@ sendMail.post("/sendorderdetails", async (req: Request, res: Response) => {
     from: "needmartinshop@gmail.com",
     to: "needmartinshop@gmail.com",
     subject: "Shipment Confirmation",
-    html: `<p>${JSON.stringify(data)}</p>
-    <p>Products: ${JSON.stringify(data.products)}</p>
-    <p>Order value: ${JSON.stringify(data.amount)}</p>
-    <p>First name: ${JSON.stringify(data.firstName)}</p>
-    <p>Last name: ${JSON.stringify(data.lastName)}</p>
-    <p>Street: ${JSON.stringify(data.street)}</p>
-    <p>Flat: ${JSON.stringify(data.flat)}</p>
-    <p>Country: ${JSON.stringify(data.country)}</p>
-    <p>Post Code: ${JSON.stringify(data.postCode)}</p>
-    <p>City: ${JSON.stringify(data.city)}</p>
-    <p>Phone ${JSON.stringify(data.phone)}</p>`,
+    html: `<p>Products: ${JSON.stringify(data.address.products)}</p>
+    <p>Order value: ${JSON.stringify(data.address.amount)}</p>
+    <p>First name: ${JSON.stringify(data.address.firstName)}</p>
+    <p>Last name: ${JSON.stringify(data.address.lastName)}</p>
+    <p>Street: ${JSON.stringify(data.address.street)}</p>
+    <p>Flat: ${JSON.stringify(data.address.flat)}</p>
+    <p>Country: ${JSON.stringify(data.address.country)}</p>
+    <p>Post Code: ${JSON.stringify(data.address.postCode)}</p>
+    <p>City: ${JSON.stringify(data.address.city)}</p>
+    <p>Phone: ${JSON.stringify(data.address.phone)}</p>`,
   };
 
   transporter.sendMail(mailOptions, (error: Error | null, info: any) => {
