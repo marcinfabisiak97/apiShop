@@ -41,7 +41,7 @@ orderRouter.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 //get user orders
 orderRouter.get(
   "/find/:userId",
-  verifyTokenAndAuthorization,
+  verifyToken,
   async (req, res) => {
     try {
       const orders = await Order.find({ userId: req.params.userId });
