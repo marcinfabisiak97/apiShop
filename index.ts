@@ -30,6 +30,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://famous-salmiakki-42778d.netlify.app",
+      "https://apishop-at7j.onrender.com"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "token", "accessToken"],
