@@ -33,7 +33,6 @@ app.use(
       "https://famous-salmiakki-42778d.netlify.app",
       "https://apishop-at7j.onrender.com",
       "https://sweet-blancmange-037826.netlify.app",
-      "https://sweet-blancmange-037826.netlify.app/products"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "token", "accessToken"],
