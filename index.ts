@@ -11,6 +11,7 @@ import sendEmail from "./routes/sendEmail";
 import cors from "cors";
 dotenv.config();
 const app = express();
+console.log(process.env.MONGODB_URL)
 if (process.env.MONGODB_URL) {
   mongoose
     .connect(process.env.MONGODB_URL)
@@ -30,7 +31,8 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://famous-salmiakki-42778d.netlify.app",
-      "https://apishop-at7j.onrender.com"
+      "https://apishop-at7j.onrender.com",
+      "https://sweet-blancmange-037826.netlify.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "token", "accessToken"],
