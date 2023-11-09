@@ -38,7 +38,7 @@ productsRouter.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
     res.status(500).json(err);
   }
 });
-//get  products by id
+//get products by id
 productsRouter.get("/find/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
